@@ -32,7 +32,7 @@ buttons = ( (LCD.SELECT, 'Select', (1,1,1)),
             (LCD.DOWN,   'Down'  , (0,1,0)),
             (LCD.RIGHT,  'Right' , (1,0,1)) )
 
-print 'Press Ctrl-C to quit.'
+print('Press Ctrl-C to quit.')
 while True:
 	# Loop through each button and check if it is pressed.
 	for button in buttons:
