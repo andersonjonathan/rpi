@@ -12,8 +12,9 @@ print "Pin 3 = %d" % (mcp.input(3) >> 3)
 
 # Python speed test on output 0 toggling at max speed
 print "Starting blinky on pin 0 (CTRL+C to quit)"
+
 while (True):
-  mcp.output(0, 1)  # Pin 0 High
-  sleep(1);
-  mcp.output(0, 0)  # Pin 0 Low
-  sleep(1);
+    mcp.output(0, 1)  # Pin 0 High
+    sleep(1)
+    mcp.output(0, 0)  # Pin 0 Low
+    sleep(1)
