@@ -8,7 +8,7 @@ sender = 22
 
 GPIO.setup(sender, GPIO.OUT)
 i = 0
-while i < 10:
+while i < 100:
     GPIO.output(sender, 1)
     time.sleep(0.0005)
     GPIO.output(sender, 0)
