@@ -5,7 +5,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 sender = 22
-T = 0.0005
+T = 0.00025
 GPIO.setup(sender, GPIO.OUT)
 
 
