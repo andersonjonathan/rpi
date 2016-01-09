@@ -1,4 +1,3 @@
-from flask import Flask, render_template
 import RPi.GPIO as GPIO
 import time
 
@@ -71,10 +70,8 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 sender = 22
-wire = 18
 T = 0.00025
 GPIO.setup(sender, GPIO.OUT)
-GPIO.setup(wire, GPIO.OUT)
 
 def one():
     GPIO.output(sender, 1)
@@ -221,60 +218,3 @@ def send_code(group_on, on, unit_nr):
         unit(unit_nr)
         pause()
         i += 1
-
-app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template('index.html')
-
-@app.route("/one_on/")
-def one_on():
-    send_code(True, True, 1)
-    return render_template('index.html')
-
-
-@app.route("/two_on/")
-def two_on():
-    send_code(True, True, 2)
-    return render_template('index.html')
-
-
-@app.route("/three_on/")
-def three_on():
-    send_code(True, True, 3)
-    return render_template('index.html')
-
-
-@app.route("/one_off/")
-def one_off():
-    send_code(True, False, 1)
-    return render_template('index.html')
-
-
-@app.route("/two_off/")
-def two_off():
-    send_code(True, False, 2)
-    return render_template('index.html')
-
-
-@app.route("/three_off/")
-def three_off():
-    send_code(True, False, 3)
-    return render_template('index.html')
-
-
-@app.route("/wire_on/")
-def wire_on():
-    GPIO.output(wire, 0)
-    return render_template('index.html')
-
-
-@app.route("/wire_off/")
-def wire_off():
-    GPIO.output(wire, 1)
-    return render_template('index.html')
-
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=True)
