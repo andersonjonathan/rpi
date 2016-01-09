@@ -1,0 +1,6 @@
+IR mottagare
+lirc config för android smart box remote i mappen.
+
+Svart: GPIO
+Vit: GND
+Grå: 3v

@@ -1,0 +1,7 @@
+Termometer
+
+DHT11
+
+Blå: 3v
+Grön: GPIO
+Svart: GND
