@@ -266,13 +266,13 @@ def three_off():
 
 @app.route("/wire_on/")
 def wire_on():
-    GPIO.output(wire, 1)
+    GPIO.output(wire, 0)
     return render_template('index.html')
 
 
 @app.route("/wire_off/")
 def wire_off():
-    GPIO.output(wire, 0)
+    GPIO.output(wire, 1)
     return render_template('index.html')
 
 
