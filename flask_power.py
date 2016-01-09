@@ -71,7 +71,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 sender = 22
-wire = 4
+wire = 18
 T = 0.00025
 GPIO.setup(sender, GPIO.OUT)
 GPIO.setup(wire, GPIO.OUT)
