@@ -262,5 +262,18 @@ def three_off():
     send_code(True, False, 3)
     return render_template('index.html')
 
+
+@app.route("/wire_on/")
+def wire_on():
+    GPIO.output(4, 1)
+    return render_template('index.html')
+
+
+@app.route("/wire_off/")
+def wire_off():
+    GPIO.output(4, 0)
+    return render_template('index.html')
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80, debug=True)
