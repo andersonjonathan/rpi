@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import RPi.GPIO as GPIO
 import time
 
@@ -223,6 +223,9 @@ def send_code(group_on, on, unit_nr):
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return render_template('index.html')
 
 @app.route("/one_on/")
 def one_on():
