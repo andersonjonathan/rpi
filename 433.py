@@ -220,5 +220,4 @@ def send_code(group_on, on, unit_nr):
         pause()
         i += 1
 
-send_code(False, True, 1)
-GPIO.cleanup()
+# GPIO.cleanup()
