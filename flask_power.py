@@ -243,19 +243,19 @@ def three_on():
 
 
 @app.route("/one_off/")
-def one_on():
+def one_off():
     send_code(True, False, 1)
     return "1 ON!"
 
 
 @app.route("/two_off/")
-def two_on():
+def two_off():
     send_code(True, False, 2)
     return "2 ON!"
 
 
 @app.route("/three_off/")
-def three_on():
+def three_off():
     send_code(True, False, 3)
     return "3 ON!"
 
