@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import RPi.GPIO as GPIO
-from .radioplugs import send_code
-from .wiredplugs import turn_on, turn_off
+from plugs.radioplugs import send_code
+from plugs.wiredplugs import turn_on, turn_off
 
 app = Flask(__name__)
 
