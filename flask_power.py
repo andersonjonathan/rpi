@@ -71,9 +71,10 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 sender = 22
+wire = 4
 T = 0.00025
 GPIO.setup(sender, GPIO.OUT)
-
+GPIO.setup(wire, GPIO.OUT)
 
 def one():
     GPIO.output(sender, 1)
@@ -265,13 +266,13 @@ def three_off():
 
 @app.route("/wire_on/")
 def wire_on():
-    GPIO.output(4, 1)
+    GPIO.output(wire, 1)
     return render_template('index.html')
 
 
 @app.route("/wire_off/")
 def wire_off():
-    GPIO.output(4, 0)
+    GPIO.output(wire, 0)
     return render_template('index.html')
 
 
