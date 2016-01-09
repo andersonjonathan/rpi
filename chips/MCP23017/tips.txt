@@ -1,0 +1,1 @@
+lcd:n ligger på ingång 20 så använd typ 21 dvs sätt A0 till 3v istället för GND

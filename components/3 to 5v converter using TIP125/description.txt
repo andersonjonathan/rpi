@@ -1,0 +1,9 @@
+IN (hane):
+Grön: 5v
+Gul: GPIO
+Blå: GND
+
+OUT (hona):
+Blå: GND
+Gul: 5v GPIO
+Grön: 5v VCC

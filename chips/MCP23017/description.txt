@@ -1,0 +1,9 @@
+Add another 16 pins to your microcontroller using a MCP23017 port expander. The MCP23017 uses two i2c pins (these can be shared with other i2c devices), and in exchange gives you 16 general purpose pins. You can set each of 16 pins to be input, output, or input with a pullup. There's even the ability to get an interrupt via an external pin when any of the inputs change so you don't have to keep polling the chip.
+
+Use this chip from 2.7-5.5V (good for any 3.3V or 5V setup), and you can sink/source up to 20mA from any of the I/O pins so this will work for LEDs and such. Team it up with a high-power MOSFET if you need more juice. DIP package means it will plug into any breadboard or perfboard.
+
+You can set the i2c address by tying the ADDR0-2 pins to power or ground, for up to 8 unique addresses. That means 8 chips can share a single i2c bus - that's 128 I/O pins!
+
+We used this chip in our RGB LCD + Keypad shield to both control an LCD and read a 5-way keypad and found it to be very reliable and easy to get up and running. We even have an Arduino library with example code written which will set pin state, read and write from individual pins, and set the pullups.
+
+This board/chip uses I2C 7-bit address between 0x20-0x27, selectable with jumpers

@@ -1,0 +1,24 @@
+The DHT11 is a basic, ultra low-cost digital temperature and humidity sensor. It uses a capacitive humidity sensor and a thermistor to measure the surrounding air, and spits out a digital signal on the data pin (no analog input pins needed). Its fairly simple to use, but requires careful timing to grab data. The only real downside of this sensor is you can only get new data from it once every 2 seconds, so when using our library, sensor readings can be up to 2 seconds old.
+
+Compared to the DHT22, this sensor is less precise, less accurate and works in a smaller range of temperature/humidity, but its smaller and less expensive
+
+Comes with a 4.7K or 10K resistor, which you will want to use as a pullup from the data pin to VCC.
+
+TECHNICAL DETAILS
+
+ 
+Low cost
+3 to 5V power and I/O
+2.5mA max current use during conversion (while requesting data)
+Good for 20-80% humidity readings with 5% accuracy
+Good for 0-50°C temperature readings ±2°C accuracy
+No more than 1 Hz sampling rate (once every second)
+Body size 15.5mm x 12mm x 5.5mm
+4 pins with 0.1" spacing
+Downloads:
+
+We have the DHT11 datasheet but its in chinese so its not easy to understand. However, the sensor protocol and timing is similar to the DHT22 so check out the DHT22 datasheet for more information
+
+Arduino library and example code
+
+Detailed usage tutorial

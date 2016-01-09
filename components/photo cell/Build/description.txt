@@ -1,0 +1,6 @@
+fotocell kopplad till capasitator på 10uF
+
+Brun: 3v
+Röd: GPIO
+Orange: GND
+

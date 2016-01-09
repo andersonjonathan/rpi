@@ -1,0 +1,8 @@
+Name, Description, Amount, Datasheet, Extra info,
+W25Q80BV, 1MB SPI Flash, 2, W25Q80BV.pdf,,
+SN74LVC245AN, 8-bit Logic Level Shifter, 1, sn74lvc245a.pdf,,
+MCP23008, i2c 8 input/output port expander, 1, MCP23008.pdf, More info in MCP23017 folder,
+MCP23017, i2c 16 input/output port expander, 1, MCP23008.pdf, One in display also,
+MCP3008, 8-Channel 10-Bit ADC With SPI Interface, 1, 
+TIP125, PNP Epitaxial Darlington Transistor, 2, TIP125.pdf,,
+
