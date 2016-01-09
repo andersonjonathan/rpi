@@ -205,7 +205,7 @@ def unit(nr):
         one()
 
 
-def send_code(group_on, on, unit):
+def send_code(group_on, on, unit_nr):
     i = 0
     GPIO.output(sender, 0)
     time.sleep(0.002)
@@ -216,7 +216,7 @@ def send_code(group_on, on, unit):
         group(group_on)
         on_off(on)
         chanel()
-        unit(unit)
+        unit(unit_nr)
         pause()
         i += 1
 
