@@ -1,5 +1,5 @@
 from flask import Flask
-from 433 import send_code
+from .433 import send_code
 
 app = Flask(__name__)
 
