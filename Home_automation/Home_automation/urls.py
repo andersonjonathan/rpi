@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^switch/(?P<nr>[0-9]+)/(?P<on>[0-9])/$', view=switch, name="switch"),
     url(r'^wire/(?P<on>[0-9])/$', view=wire, name="wire"),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^login/$', 'django.contrib.auth.views.login',name="my_login")
 ]
