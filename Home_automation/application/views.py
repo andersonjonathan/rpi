@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from plugs.radioplugs import send_code
 from plugs.wiredplugs import turn_on, turn_off
 
@@ -19,7 +19,7 @@ def switch(request, on, nr):
     else:
         raise PermissionDenied
     send_code(True, on, nr)
-    return render(request, 'application/index.html')
+    return redirect('/')
 
 
 @login_required
@@ -35,4 +35,4 @@ def wire(request, on):
         turn_on(wire_port)
     else:
         turn_off(wire_port)
-    return render(request, 'application/index.html')
+    return redirect('/')
