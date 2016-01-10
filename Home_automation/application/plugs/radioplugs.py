@@ -205,8 +205,6 @@ def unit(nr):
 
 
 def send_code(group_on, on, unit_nr):
-    print(on)
-    print(unit_nr)
     i = 0
     GPIO.output(sender, 0)
     time.sleep(0.002)

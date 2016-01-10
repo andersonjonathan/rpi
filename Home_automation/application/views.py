@@ -18,9 +18,7 @@ def switch(request, on, nr):
         on = False
     else:
         raise PermissionDenied
-    print(on)
-    print(nr)
-    send_code(True, on, nr)
+    send_code(True, on, int(nr))
     return redirect('/')
 
 
