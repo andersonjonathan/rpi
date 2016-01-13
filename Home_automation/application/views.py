@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
-from plugs.radioplugs import send_code
-from plugs.wiredplugs import turn_on, turn_off
+from utils.radioplugs import send_code
+from utils.wiredplugs import turn_on, turn_off
 
 
 @login_required
