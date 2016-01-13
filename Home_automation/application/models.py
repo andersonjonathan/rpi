@@ -11,8 +11,8 @@ class ScheduleSlot(models.Model):
     SUN_DOWN = 'd'
     MODES = (
         (TIME, 'Time'),
-        (SUN_UP, 'Sun up',
-         SUN_DOWN, 'Sun down')
+        (SUN_UP, 'Sun up'),
+        (SUN_DOWN, 'Sun down'),
     )
     start_mode = models.CharField(max_length=1,
                                   choices=MODES,
