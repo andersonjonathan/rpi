@@ -1,4 +1,8 @@
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    import RPiMock.GPIO as GPIO
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)

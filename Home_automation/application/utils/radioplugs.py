@@ -1,4 +1,8 @@
-import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+except ImportError:
+    import RPiMock.GPIO as GPIO
+
 import time
 
 # S 1010 1010 1001 1001 1010 1001 1010 1001 1001 1010 0110 1001 0110 1010 1010 1010 P
@@ -72,6 +76,7 @@ GPIO.setwarnings(False)
 sender = 22
 T = 0.00025
 GPIO.setup(sender, GPIO.OUT)
+
 
 def one():
     GPIO.output(sender, 1)
