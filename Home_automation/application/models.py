@@ -1,8 +1,15 @@
 from django.db import models
 
+from .exceptions import UnknownCommand
+from .utils.radioplugs import transmit
+from .utils.wiredplugs import turn_on as wire_on, turn_off as wire_off
+
 
 class Schedule(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class ScheduleSlot(models.Model):
@@ -27,6 +34,9 @@ class ScheduleSlot(models.Model):
     end = models.TimeField(null=True, blank=True)
     schedule = models.ForeignKey(Schedule)
 
+    def __str__(self):
+        return self.schedule.name
+
 
 class Plug(models.Model):
     AUTO = 'a'
@@ -43,10 +53,35 @@ class Plug(models.Model):
                               default=OFF)
     schedule = models.ForeignKey(Schedule)
 
+    def __str__(self):
+        status = ""
+        for s in self.STATUSES:
+            if self.status == s[0]:
+                status = s[1]
+        return "{name} [{status}]".format(name=self.name, status=status)
+
+    def _turn_on_internal(self):
+        raise NotImplementedError("Please Implement this method")
+
+    def _turn_off_internal(self):
+        raise NotImplementedError("Please Implement this method")
+
+    def turn_on(self):
+        raise NotImplementedError("Please Implement this method")
+
+    def turn_off(self):
+        raise NotImplementedError("Please Implement this method")
+
+    def turn_on_auto(self):
+        raise NotImplementedError("Please Implement this method")
+
 
 class RadioProtocol(models.Model):
     name = models.CharField(max_length=255)
-    time = models.IntegerField(help_text="Period time t in seconds")
+    time = models.FloatField(help_text="Period time t in seconds")
+
+    def __str__(self):
+        return self.name
 
 
 class RadioSignal(models.Model):
@@ -58,14 +93,82 @@ class RadioSignal(models.Model):
     class Meta:
         unique_together = (('protocol', 'char'),)
 
+    def __str__(self):
+        return "{protocol} [{char}]".format(protocol=self.protocol, char=self.char)
+
 
 class RadioPlug(Plug):
     protocol = models.ForeignKey(RadioProtocol)
     payload_on = models.CharField(max_length=255)  # This might be a limiting factor in the future.
     payload_off = models.CharField(max_length=255)  # This might be a limiting factor in the future.
 
+    def _format_payload(self, str_payload):
+        signals = list(self.protocol.radiosignal_set.all())
+        t = self.protocol.time
+        payload = []
+        for c in str_payload:
+            on = None
+            off = None
+            for s in signals:
+                if s.char == c:
+                    on = s.on
+                    off = s.off
+                    break
+
+            if on is not None:
+                payload.append((1, on*t))
+            else:
+                raise UnknownCommand
+
+            if off is not None:
+                payload.append((0, off*t))
+            else:
+                raise UnknownCommand
+        return payload
+
+    def _turn_on_internal(self):
+        payload = self._format_payload(self.payload_on)
+        transmit(payload)
+
+    def _turn_off_internal(self):
+        payload = self._format_payload(self.payload_off)
+        transmit(payload)
+
+    def turn_off(self):
+        self.status = self.OFF
+        self.save()
+        self._turn_off_internal()
+
+    def turn_on(self):
+        self.status = self.ON
+        self.save()
+        self._turn_on_internal()
+
+    def turn_on_auto(self):
+        self.status = self.AUTO
+        self.save()
+
 
 class WiredPlug(Plug):
     gpio = models.IntegerField(help_text="GPIO port", unique=True)
     invert_gpio = models.BooleanField(help_text="Set to true if 1 turns off the plug and 0 turns it on.")
 
+    def _turn_on_internal(self):
+        wire_on(self.gpio)
+
+    def _turn_off_internal(self):
+        wire_off(self.gpio)
+
+    def turn_off(self):
+        self.status = self.OFF
+        self.save()
+        self._turn_off_internal()
+
+    def turn_on(self):
+        self.status = self.ON
+        self.save()
+        self._turn_on_internal()
+
+    def turn_on_auto(self):
+        self.status = self.AUTO
+        self.save()

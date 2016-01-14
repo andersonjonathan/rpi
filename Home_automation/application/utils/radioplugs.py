@@ -223,3 +223,16 @@ def send_code(group_on, on, unit_nr):
         unit(unit_nr)
         pause()
         i += 1
+
+
+def transmit(payload):
+    """
+    :param payload: Shall be a list of tuples (bit, time)
+    :return:
+    """
+    i = 0
+    while i < 10:
+        for p in payload:
+            GPIO.output(sender, p[0])
+            time.sleep(p[1])
+        i += 1
