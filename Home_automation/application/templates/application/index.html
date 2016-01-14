@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{{ for  }}
-</body>
-</html>
+{% extends 'application/master.html' %}
+
+{% block content %}
+    {% for p in plugs %}
+        <div class="desktop panel panel-default hidden-xs">
+            <div class="panel-body">
+                <div class="btn-group btn-group-justified btn-group-lg" role="group" aria-label="Justified button group">
+                <span class="btn inline">{{ p.name }}</span>
+                    <a href="#" class="btn {% if p.status == p.ON %}btn-success active {% else %}btn-default{% endif %}" role="button"
+                       onclick="send_command(this, 'on', '{% url 'plug' p.pk 'on' %}')">ON</a>
+                    <a href="#" class="btn {% if p.status == p.OFF %}btn-danger active {% else %}btn-default{% endif %}" role="button"
+                        onclick="send_command(this, 'off', '{% url 'plug' p.pk 'off' %}')">OFF</a>
+                    <a href="#" class="btn {% if p.status == p.AUTO %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                        onclick="send_command(this, 'auto', '{% url 'plug' p.pk 'auto' %}')">AUTO</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="mobile panel panel-default visible-xs-block">
+            <div class="panel-heading"><h3 class="panel-title">{{ p.name }}</h3></div>
+            <div class="panel-body">
+                <div class="btn-group btn-group-lg" role="group" aria-label="Justified button group">
+                    <a href="#" class="btn {% if p.status == p.ON %}btn-success active {% else %}btn-default{% endif %}" role="button"
+                       onclick="send_command(this, 'on', '{% url 'plug' p.pk 'on' %}')">ON</a>
+                    <a href="#" class="btn {% if p.status == p.OFF %}btn-danger active {% else %}btn-default{% endif %}" role="button"
+                        onclick="send_command(this, 'off', '{% url 'plug' p.pk 'off' %}')">OFF</a>
+                    <a href="#" class="btn {% if p.status == p.AUTO %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                        onclick="send_command(this, 'auto', '{% url 'plug' p.pk 'auto' %}')">AUTO</a>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

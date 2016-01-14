@@ -5,11 +5,13 @@ from django.shortcuts import render, redirect
 from .models import Plug
 from utils.radioplugs import send_code
 from utils.wiredplugs import turn_on, turn_off
+from django.http import JsonResponse
 
 
 @login_required
 def index(request):
-    return render(request, 'application/index.html')
+    plugs = Plug.objects.all()
+    return render(request, 'application/index.html', {'plugs': plugs, 'current_page': 'Plugs'})
 
 
 @login_required
@@ -45,18 +47,22 @@ def wire(request, on):
     return redirect('/')
 
 
+@login_required
 def plug(request, pk, status):
     plug_obj = Plug.objects.get(pk=pk)
     if hasattr(plug_obj, 'radioplug'):
         plug_obj = plug_obj.radioplug
     if hasattr(plug_obj, 'wiredplug'):
         plug_obj = plug_obj.wiredplug
-    if status == 'on':
-        plug_obj.turn_on()
-    elif status == 'off':
-        plug_obj.turn_off()
-    elif status == 'auto':
-        plug_obj.turn_on_auto()
-    else:
-        raise PermissionDenied
-    return redirect('/')
+    try:
+        if status == 'on':
+            plug_obj.turn_on()
+        elif status == 'off':
+            plug_obj.turn_off()
+        elif status == 'auto':
+            plug_obj.turn_on_auto()
+        else:
+            return JsonResponse({"status": "faulty command"})
+    except:
+        return JsonResponse({"status": "Exception."})
+    return JsonResponse({"status": "ok"})
