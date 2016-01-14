@@ -7,6 +7,7 @@ import time
 
 # S 1010 1010 1001 1001 1010 1001 1010 1001 1001 1010 0110 1001 0110 1010 1010 1010 P
 # S HH   HH   HH   HH   HH   HH   HH   HH   HH   HH   HH   HH   HH   GO   CC   EE   P
+# s1010101010011001101010011010100110011010011010010110
 #
 # Bitcoding
 # The data part on the physical link is coded so that every logical bit is sent as two physical bits, where the second one is the inverse of the first one.

@@ -13,6 +13,11 @@ def index(request):
 
 
 @login_required
+def oldindex(request):
+    return render(request, 'application/oldindex.html')
+
+
+@login_required
 def switch(request, on, nr):
     if on == 'on':
         on = True
