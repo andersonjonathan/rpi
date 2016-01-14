@@ -11,6 +11,9 @@ class Schedule(models.Model):
     def __unicode__(self):
         return u'{name}'.format(name=self.name)
 
+    def status_at_the_moment(self):
+        pass
+
 
 class ScheduleSlot(models.Model):
     TIME = 't'
