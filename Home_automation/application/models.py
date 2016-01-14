@@ -9,7 +9,7 @@ class Schedule(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
     def __unicode__(self):
-        return self.name
+        return u'{name}'.format(name=self.name)
 
 
 class ScheduleSlot(models.Model):
@@ -35,7 +35,7 @@ class ScheduleSlot(models.Model):
     schedule = models.ForeignKey(Schedule)
 
     def __unicode__(self):
-        return self.schedule.name
+        return u'{name}'.format(name=self.schedule.name)
 
 
 class Plug(models.Model):
@@ -58,7 +58,7 @@ class Plug(models.Model):
         for s in self.STATUSES:
             if self.status == s[0]:
                 status = s[1]
-        return "{name} [{status}]".format(name=self.name, status=status)
+        return u'{name} [{status}]'.format(name=self.name, status=status)
 
     def _turn_on_internal(self):
         raise NotImplementedError("Please Implement this method")
@@ -81,7 +81,7 @@ class RadioProtocol(models.Model):
     time = models.FloatField(help_text="Period time t in seconds")
 
     def __unicode__(self):
-        return self.name
+        return u'{name}'.format(name=self.name)
 
 
 class RadioSignal(models.Model):
@@ -94,7 +94,7 @@ class RadioSignal(models.Model):
         unique_together = (('protocol', 'char'),)
 
     def __unicode__(self):
-        return "{protocol} [{char}]".format(protocol=self.protocol, char=self.char)
+        return u'{protocol} [{char}]'.format(protocol=self.protocol, char=self.char)
 
 
 class RadioPlug(Plug):
