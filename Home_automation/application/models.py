@@ -8,7 +8,7 @@ from .utils.wiredplugs import turn_on as wire_on, turn_off as wire_off
 class Schedule(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
@@ -34,7 +34,7 @@ class ScheduleSlot(models.Model):
     end = models.TimeField(null=True, blank=True)
     schedule = models.ForeignKey(Schedule)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.schedule.name
 
 
@@ -53,7 +53,7 @@ class Plug(models.Model):
                               default=OFF)
     schedule = models.ForeignKey(Schedule)
 
-    def __str__(self):
+    def __unicode__(self):
         status = ""
         for s in self.STATUSES:
             if self.status == s[0]:
@@ -80,7 +80,7 @@ class RadioProtocol(models.Model):
     name = models.CharField(max_length=255)
     time = models.FloatField(help_text="Period time t in seconds")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
@@ -93,7 +93,7 @@ class RadioSignal(models.Model):
     class Meta:
         unique_together = (('protocol', 'char'),)
 
-    def __str__(self):
+    def __unicode__(self):
         return "{protocol} [{char}]".format(protocol=self.protocol, char=self.char)
 
 
