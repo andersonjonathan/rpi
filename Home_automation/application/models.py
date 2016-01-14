@@ -110,7 +110,7 @@ class RadioPlug(Plug):
             on = None
             off = None
             for s in signals:
-                if s.char == c:
+                if s.char.lower() == c.lower():
                     on = s.on
                     off = s.off
                     break
