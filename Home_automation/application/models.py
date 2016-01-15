@@ -1,8 +1,9 @@
 from django.db import models
-
+from django.utils import timezone
 from .exceptions import UnknownCommand
 from .utils.radioplugs import transmit
 from .utils.wiredplugs import turn_on as wire_on, turn_off as wire_off
+from .utils.sun import sun
 
 
 class Schedule(models.Model):
@@ -12,7 +13,31 @@ class Schedule(models.Model):
         return u'{name}'.format(name=self.name)
 
     def status_at_the_moment(self):
-        pass
+        slots = self.scheduleslot_set.all()
+        status = False
+        now = timezone.datetime.now().time()
+        for slot in slots:
+            slot_status = False
+            if slot.start_mode == slot.TIME:
+                if now >= slot.start:
+                    slot_status = True
+            elif slot.start_mode == slot.SUN_UP:
+                if now >= sun(58.41, 15.57).sunrise():
+                    slot_status = True
+            elif slot.start_mode == slot.SUN_DOWN:
+                if now >= sun(58.41, 15.57).sunset():
+                    slot_status = True
+            if slot_status:
+                if slot.end_mode == slot.TIME:
+                    if now <= slot.end:
+                        status = True
+                elif slot.end_mode == slot.SUN_UP:
+                    if now <= sun(58.41, 15.57).sunrise():
+                        status = True
+                elif slot.end_mode == slot.SUN_DOWN:
+                    if now <= sun(58.41, 15.57).sunset():
+                        status = True
+        return status
 
 
 class ScheduleSlot(models.Model):
@@ -63,10 +88,10 @@ class Plug(models.Model):
                 status = s[1]
         return u'{name} [{status}]'.format(name=self.name, status=status)
 
-    def _turn_on_internal(self):
+    def turn_on_internal(self):
         raise NotImplementedError("Please Implement this method")
 
-    def _turn_off_internal(self):
+    def turn_off_internal(self):
         raise NotImplementedError("Please Implement this method")
 
     def turn_on(self):
@@ -129,23 +154,23 @@ class RadioPlug(Plug):
                 raise UnknownCommand
         return payload
 
-    def _turn_on_internal(self):
+    def turn_on_internal(self):
         payload = self._format_payload(self.payload_on)
         transmit(payload)
 
-    def _turn_off_internal(self):
+    def turn_off_internal(self):
         payload = self._format_payload(self.payload_off)
         transmit(payload)
 
     def turn_off(self):
         self.status = self.OFF
         self.save()
-        self._turn_off_internal()
+        self.turn_off_internal()
 
     def turn_on(self):
         self.status = self.ON
         self.save()
-        self._turn_on_internal()
+        self.turn_on_internal()
 
     def turn_on_auto(self):
         self.status = self.AUTO
@@ -156,21 +181,21 @@ class WiredPlug(Plug):
     gpio = models.IntegerField(help_text="GPIO port", unique=True)
     invert_gpio = models.BooleanField(help_text="Set to true if 1 turns off the plug and 0 turns it on.")
 
-    def _turn_on_internal(self):
+    def turn_on_internal(self):
         wire_on(self.gpio)
 
-    def _turn_off_internal(self):
+    def turn_off_internal(self):
         wire_off(self.gpio)
 
     def turn_off(self):
         self.status = self.OFF
         self.save()
-        self._turn_off_internal()
+        self.turn_off_internal()
 
     def turn_on(self):
         self.status = self.ON
         self.save()
-        self._turn_on_internal()
+        self.turn_on_internal()
 
     def turn_on_auto(self):
         self.status = self.AUTO

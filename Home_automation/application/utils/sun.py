@@ -2,7 +2,7 @@ from math import cos, sin, acos, asin, tan
 from math import degrees as deg, radians as rad
 from datetime import date, datetime, time
 # this module is not provided here. See text.
-from timezone import LocalTimezone
+from pytz.reference import LocalTimezone
 
 
 class sun:
