@@ -1,5 +1,6 @@
 # !/usr/bin/python
 import sys
+sys.path.append("../Adafruit/")
 import time
 import Adafruit_CharLCD
 import random
