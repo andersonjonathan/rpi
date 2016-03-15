@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.join(sys.path[0], '..'))
 
 import time
-import Adafruit.Adafruit_CharLCD as Adafruit_CharLCD
+import Adafruit.Adafruit_CharLCD.Adafruit_CharLCD as Adafruit_CharLCD
 import random
 
 __author__ = 'jonathan'
