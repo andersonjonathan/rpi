@@ -1,11 +1,10 @@
 # !/usr/bin/python
 import sys
 import os
-sys.path.append(os.path.join(sys.path[0], '..', 'Adafruit', 'Adafruit_CharLCD'))
-sys.path.append(os.path.join(sys.path[0], '..', 'Adafruit', 'Adafruit_CharLCDPlate'))
+sys.path.append(os.path.join(sys.path[0], '..', 'Adafruit'))
 
 import time
-import Adafruit_CharLCD
+from Adafruit import Adafruit_CharLCD
 import random
 
 __author__ = 'jonathan'
