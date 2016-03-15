@@ -1,6 +1,7 @@
 # !/usr/bin/python
 import sys
-sys.path.append("../Adafruit/")
+import os
+sys.path.append(os.path.join(sys.path[0], '..', 'Adafruit'))
 import time
 import Adafruit_CharLCD
 import random
