@@ -11,7 +11,7 @@ import random
 
 __author__ = 'jonathan'
 
-LCD = Adafruit_CharLCDPlate()
+LCD = Adafruit_CharLCDPlate.Adafruit_CharLCDPlate()
 
 # create some custom characters
 LCD.create_char(1, [10, 31, 31, 10, 0, 0, 0, 0])  # Car in upper part of char
