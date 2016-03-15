@@ -1,7 +1,7 @@
 # !/usr/bin/python
 import sys
 import os
-sys.path.append(os.path.join(sys.path[0], '..', 'Adafruit'))
+sys.path.append(os.path.join(sys.path[0], '..'))
 
 import time
 from Adafruit import Adafruit_CharLCD
