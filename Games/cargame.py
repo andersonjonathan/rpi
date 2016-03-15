@@ -1,17 +1,15 @@
 # !/usr/bin/python
 import sys
 import os
-sys.path.append(os.path.join(sys.path[0], '..'))
 sys.path.append(os.path.join(sys.path[0], '..', 'Adafruit'))
-sys.path.append(os.path.join(sys.path[0], '..', 'Adafruit', 'Adafruit_CharLCD'))
 
 import time
-from Adafruit_CharLCD import Adafruit_CharLCD
+import Adafruit_CharLCD
 import random
 
 __author__ = 'jonathan'
 
-LCD = Adafruit_CharLCD()
+LCD = Adafruit_CharLCD.Adafruit_CharLCD()
 
 # create some custom characters
 LCD.create_char(1, [10, 31, 31, 10, 0, 0, 0, 0])  # Car in upper part of char
