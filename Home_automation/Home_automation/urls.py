@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from application.views import index, switch
-from django.contrib.auth.views import login, logout
+from application.views import index, switch, login
+from django.contrib.auth.views import logout
 
 urlpatterns = [
     # Examples:
