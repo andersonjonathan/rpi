@@ -10,6 +10,6 @@ urlpatterns = [
     url(r'^$', view=index, name="index"),
     url(r'^api/switch/(?P<pk>[0-9]+)/(?P<status>[^/]+)/$', view=switch, name="switch"),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/login/$', login, {'template_name': 'admin/login.html'}),
+    url(r'^accounts/login/$', login, {'template_name': 'application/login.html'}),
     url(r'^accounts/logout/$', logout),
 ]
