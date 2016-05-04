@@ -5,17 +5,16 @@ except ImportError:
 
 import time
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-sender = 22
-GPIO.setup(sender, GPIO.OUT)
 
-
-def transmit(payload):
+def transmit(payload, sender):
     """
+    :param sender: GPIO port to send on
     :param payload: Shall be a list of tuples (bit, time)
     :return:
     """
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(sender, GPIO.OUT)
     i = 0
     while i < 10:
         for p in payload:

@@ -104,6 +104,11 @@ class Plug(models.Model):
         raise NotImplementedError("Please Implement this method")
 
 
+class RadioTransmitter(models.Model):
+    name = models.CharField(max_length=255)
+    gpio = models.CharField(max_length=255)
+
+
 class RadioProtocol(models.Model):
     name = models.CharField(max_length=255)
     time = models.FloatField(help_text="Period time t in seconds")
@@ -126,6 +131,7 @@ class RadioSignal(models.Model):
 
 
 class RadioPlug(Plug):
+    transmitter = models.ForeignKey(RadioTransmitter, blank=False, null=True)
     protocol = models.ForeignKey(RadioProtocol)
     payload_on = models.CharField(max_length=255)  # This might be a limiting factor in the future.
     payload_off = models.CharField(max_length=255)  # This might be a limiting factor in the future.
@@ -156,11 +162,11 @@ class RadioPlug(Plug):
 
     def turn_on_internal(self):
         payload = self._format_payload(self.payload_on)
-        transmit(payload)
+        transmit(payload, self.transmitter.gpio)
 
     def turn_off_internal(self):
         payload = self._format_payload(self.payload_off)
-        transmit(payload)
+        transmit(payload, self.transmitter.gpio)
 
     def turn_off(self):
         self.status = self.OFF
