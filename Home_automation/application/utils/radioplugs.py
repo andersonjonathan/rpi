@@ -12,6 +12,7 @@ def transmit(payload, sender):
     :param payload: Shall be a list of tuples (bit, time)
     :return:
     """
+    sender = int(sender)
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(sender, GPIO.OUT)
