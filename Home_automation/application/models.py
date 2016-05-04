@@ -108,6 +108,9 @@ class RadioTransmitter(models.Model):
     name = models.CharField(max_length=255)
     gpio = models.CharField(max_length=255)
 
+    def __unicode__(self):
+        return u'{name}'.format(name=self.name)
+
 
 class RadioProtocol(models.Model):
     name = models.CharField(max_length=255)
