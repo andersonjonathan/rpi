@@ -15,6 +15,6 @@ class Command(BaseCommand):
                 plug = plug.wiredplug
             slot = plug.schedule.active_slot()
             if slot:
-                slot.button.perform_action_internal()
+                slot.button.child().perform_action_internal()
             else:
-                plug.default_button.perform_action_internal()
+                plug.default_button.child().perform_action_internal()

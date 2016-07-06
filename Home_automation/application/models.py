@@ -93,7 +93,7 @@ class Button(models.Model):
             return self.wiredbutton
 
     def __unicode__(self):
-        return u'{name}'.format(name=self.name)
+        return u'{name} [{plug}]'.format(name=self.name, plug=self.plug.name)
 
     def perform_action_internal(self):
         raise NotImplementedError("Please Implement this method")
