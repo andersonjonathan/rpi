@@ -80,9 +80,11 @@ class Button(models.Model):
         ("btn-warning", "Orange"),
         ("btn-danger", "Red"),
     ))
+    priority = models.IntegerField(default=0)
 
     class Meta:
         unique_together = (('name', 'plug'),)
+        ordering = ["priority"]
 
     def child(self):
         if hasattr(self, 'radiobutton'):
