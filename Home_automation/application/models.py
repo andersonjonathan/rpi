@@ -61,7 +61,7 @@ class ScheduleSlot(models.Model):
 
     end = models.TimeField(null=True, blank=True)
     schedule = models.ForeignKey(Schedule)
-    button = models.ForeignKey("Button", null=True, blank=False)
+    button = models.ForeignKey("Button", null=True, blank=False, on_delete=models.SET_NULL)
 
     def __unicode__(self):
         return u'{name}'.format(name=self.schedule.name)
@@ -99,7 +99,8 @@ class Plug(models.Model):
     in_auto_mode = models.BooleanField(default=False)
     name = models.CharField(max_length=255, unique=True)
     schedule = models.ForeignKey(Schedule, null=True, blank=True)
-    default_button = models.ForeignKey(Button, related_name="default_action_for_plug", null=True, blank=True)
+    default_button = models.ForeignKey(
+        Button, related_name="default_action_for_plug", null=True, blank=True, on_delete=models.SET_NULL)
 
     def __unicode__(self):
         return u'{name}'.format(name=self.name)
