@@ -8,11 +8,11 @@
                 <span class="btn inline">{{ p.name }}</span>
                     {% for button in p.buttons.all %}
                     <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
-                       onclick="send_command(this, '{{ button.pk }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
+                       onclick="send_command(this, '{{ button.color }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
                     {% endfor %}
                     {% if p.has_auto_mode %}
                     <a href="#" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
-                        onclick="send_command(this, 'auto', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
+                        onclick="send_command(this, 'btn-primary', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
                     {% endif %}
                 </div>
 
@@ -24,11 +24,11 @@
                 <div class="btn-group btn-group-lg" role="group" aria-label="Justified button group">
                     {% for button in p.buttons.all %}
                     <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
-                       onclick="send_command(this, '{{ button.pk }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
+                       onclick="send_command(this, '{{ button.color }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
                     {% endfor %}
                     {% if p.has_auto_mode %}
                     <a href="#" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
-                        onclick="send_command(this, 'auto', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
+                        onclick="send_command(this, 'btn-primary', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
                     {% endif %}
                 </div>
 

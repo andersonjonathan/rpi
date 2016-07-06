@@ -52,13 +52,8 @@ function send_command(element, mode, url) {
         child.addClass('btn-default');
     });
     $element.addClass('active');
-    if(mode == "on"){
-        $element.addClass('btn-success');
-    } else if (mode == "off"){
-        $element.addClass('btn-danger');
-    } else if (mode == "auto"){
-        $element.addClass('btn-primary');
-    }
+    $element.addClass(mode);
+    
 
     $.ajax({
         "type": "get",
