@@ -10,8 +10,8 @@
                     <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
                        onclick="send_command(this, '{{ button.pk }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
                     {% endfor %}
-                    {% if p.has_auto %}
-                    <a href="#" class="btn {% if p.is_auto %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                    {% if p.has_auto_mode %}
+                    <a href="#" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
                         onclick="send_command(this, 'auto', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
                     {% endif %}
                 </div>
@@ -26,8 +26,8 @@
                     <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
                        onclick="send_command(this, '{{ button.pk }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
                     {% endfor %}
-                    {% if p.has_auto %}
-                    <a href="#" class="btn {% if p.is_auto %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                    {% if p.has_auto_mode %}
+                    <a href="#" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
                         onclick="send_command(this, 'auto', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
                     {% endif %}
                 </div>
