@@ -29,6 +29,10 @@ def switch(request, pk, button_pk):
     try:
         if button_pk == "auto":
             plug.in_auto_mode = True
+            plug.save()
+            for b in plug.buttons.all():
+                b.active = False
+                b.save()
         else:
             btn = plug.buttons.get(pk=button_pk).child()
             btn.perform_action()
