@@ -106,7 +106,7 @@ class Plug(models.Model):
     has_auto_mode = models.BooleanField(default=True)
     in_auto_mode = models.BooleanField(default=False)
     name = models.CharField(max_length=255, unique=True)
-    schedule = models.ForeignKey(Schedule, null=True, blank=True)
+    schedule = models.ForeignKey(Schedule, null=True, blank=True, on_delete=models.SET_NULL)
     default_button = models.ForeignKey(
         Button, related_name="default_action_for_plug", null=True, blank=True, on_delete=models.SET_NULL)
 
