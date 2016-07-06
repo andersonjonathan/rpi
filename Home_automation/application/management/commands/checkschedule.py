@@ -6,14 +6,15 @@ class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
 
     def handle(self, *args, **options):
-        plugs = Plug.objects.filter(status=Plug.AUTO)
+        plugs = Plug.objects.filter(in_auto_mode=True)
 
         for plug in plugs:
             if hasattr(plug, 'radioplug'):
                 plug = plug.radioplug
             if hasattr(plug, 'wiredplug'):
                 plug = plug.wiredplug
-            if plug.schedule.status_at_the_moment():
-                plug.turn_on_internal()
+            slot = plug.schedule.active_slot()
+            if slot:
+                slot.button.perform_action_internal()
             else:
-                plug.turn_off_internal()
+                plug.default_button.perform_action_internal()

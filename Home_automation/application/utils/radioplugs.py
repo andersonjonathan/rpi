@@ -6,8 +6,9 @@ except ImportError:
 import time
 
 
-def transmit(payload, sender):
+def transmit(payload, sender, rounds=10):
     """
+    :param rounds: Number of times to send the signal
     :param sender: GPIO port to send on
     :param payload: Shall be a list of tuples (bit, time)
     :return:
@@ -17,7 +18,7 @@ def transmit(payload, sender):
     GPIO.setwarnings(False)
     GPIO.setup(sender, GPIO.OUT)
     i = 0
-    while i < 10:
+    while i < rounds:
         for p in payload:
             GPIO.output(sender, p[0])
             time.sleep(p[1])

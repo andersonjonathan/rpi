@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from .exceptions import UnknownCommand
 from .utils.radioplugs import transmit
-from .utils.wiredplugs import turn_on as wire_on, turn_off as wire_off
+from .utils.wiredplugs import set_state
 from .utils.sun import sun
 
 
@@ -12,31 +12,31 @@ class Schedule(models.Model):
     def __unicode__(self):
         return u'{name}'.format(name=self.name)
 
-    def status_at_the_moment(self):
+    def active_slot(self):
         slots = self.scheduleslot_set.all()
-        status = False
+        status = None
         now = timezone.datetime.now().time()
         for slot in slots:
-            slot_status = False
+            slot_status = None
             if slot.start_mode == slot.TIME:
                 if now >= slot.start:
-                    slot_status = True
+                    slot_status = slot
             elif slot.start_mode == slot.SUN_UP:
                 if now >= sun(58.41, 15.57).sunrise():
-                    slot_status = True
+                    slot_status = slot
             elif slot.start_mode == slot.SUN_DOWN:
                 if now >= sun(58.41, 15.57).sunset():
-                    slot_status = True
+                    slot_status = slot
             if slot_status:
                 if slot.end_mode == slot.TIME:
                     if now <= slot.end:
-                        status = True
+                        status = slot
                 elif slot.end_mode == slot.SUN_UP:
                     if now <= sun(58.41, 15.57).sunrise():
-                        status = True
+                        status = slot
                 elif slot.end_mode == slot.SUN_DOWN:
                     if now <= sun(58.41, 15.57).sunset():
-                        status = True
+                        status = slot
         return status
 
 
@@ -61,47 +61,48 @@ class ScheduleSlot(models.Model):
 
     end = models.TimeField(null=True, blank=True)
     schedule = models.ForeignKey(Schedule)
+    button = models.ForeignKey("Button", null=True, blank=False)
 
     def __unicode__(self):
         return u'{name}'.format(name=self.schedule.name)
 
 
-class Plug(models.Model):
-    AUTO = 'a'
-    ON = '1'
-    OFF = '0'
-    STATUSES = (
-        (AUTO, 'Auto'),
-        (ON, 'On'),
-        (OFF, 'Off'),
-    )
-    name = models.CharField(max_length=255, unique=True)
-    status = models.CharField(max_length=1,
-                              choices=STATUSES,
-                              default=OFF)
-    schedule = models.ForeignKey(Schedule)
+class Button(models.Model):
+    name = models.CharField(max_length=255)
+    active = models.BooleanField(default=False)
+    plug = models.ForeignKey('Plug', related_name="buttons")
+    info = models.TextField(null=True, blank=True)
+    color = models.CharField(max_length=255, choices=(
+        ("btn-default", "White"),
+        ("btn-primary", "Blue"),
+        ("btn-default", "Green"),
+        ("btn-primary", "Light blue"),
+        ("btn-default", "Orange"),
+        ("btn-primary", "Red"),
+    ))
+
+    class Meta:
+        unique_together = (('name', 'plug'),)
 
     def __unicode__(self):
-        status = ""
-        for s in self.STATUSES:
-            if self.status == s[0]:
-                status = s[1]
-        return u'{name} [{status}]'.format(name=self.name, status=status)
+        return u'{name}'.format(name=self.name)
 
-    def turn_on_internal(self):
+    def perform_action_internal(self):
         raise NotImplementedError("Please Implement this method")
 
-    def turn_off_internal(self):
+    def perform_action(self):
         raise NotImplementedError("Please Implement this method")
 
-    def turn_on(self):
-        raise NotImplementedError("Please Implement this method")
 
-    def turn_off(self):
-        raise NotImplementedError("Please Implement this method")
+class Plug(models.Model):
+    has_auto_mode = models.BooleanField(default=True)
+    in_auto_mode = models.BooleanField(default=False)
+    name = models.CharField(max_length=255, unique=True)
+    schedule = models.ForeignKey(Schedule, null=True, blank=True)
+    default_button = models.ForeignKey(Button, related_name="default_action_for_plug", null=True, blank=True)
 
-    def turn_on_auto(self):
-        raise NotImplementedError("Please Implement this method")
+    def __unicode__(self):
+        return u'{name}'.format(name=self.name)
 
 
 class RadioTransmitter(models.Model):
@@ -133,11 +134,9 @@ class RadioSignal(models.Model):
         return u'{protocol} [{char}]'.format(protocol=self.protocol, char=self.char)
 
 
-class RadioPlug(Plug):
-    transmitter = models.ForeignKey(RadioTransmitter, blank=False, null=True)
-    protocol = models.ForeignKey(RadioProtocol)
-    payload_on = models.CharField(max_length=255)  # This might be a limiting factor in the future.
-    payload_off = models.CharField(max_length=255)  # This might be a limiting factor in the future.
+class RadioButton(Button):
+    payload = models.CharField(max_length=255)  # This might be a limiting factor in the future.
+    rounds = models.IntegerField(default=10)
 
     def _format_payload(self, str_payload):
         str_payload = str_payload.replace(" ", "")
@@ -164,49 +163,40 @@ class RadioPlug(Plug):
                 raise UnknownCommand
         return payload
 
-    def turn_on_internal(self):
-        payload = self._format_payload(self.payload_on)
-        transmit(payload, self.transmitter.gpio)
+    def perform_action_internal(self):
+        payload = self._format_payload(self.payload)
+        transmit(payload, self.plug.radioplug.transmitter.gpio, self.rounds)
 
-    def turn_off_internal(self):
-        payload = self._format_payload(self.payload_off)
-        transmit(payload, self.transmitter.gpio)
-
-    def turn_off(self):
-        self.status = self.OFF
+    def perform_action(self):
+        self.active = True
+        for b in self.plug.buttons.all():
+            if b.name != self.name:
+                b.active = False
+                b.save()
         self.save()
-        self.turn_off_internal()
+        self.perform_action_internal()
 
-    def turn_on(self):
-        self.status = self.ON
-        self.save()
-        self.turn_on_internal()
 
-    def turn_on_auto(self):
-        self.status = self.AUTO
+class RadioPlug(Plug):
+    transmitter = models.ForeignKey(RadioTransmitter, blank=False, null=True)
+    protocol = models.ForeignKey(RadioProtocol)
+
+
+class WiredButton(Button):
+    payload = models.CharField(max_length=1, choices=(("0", "0"), ("1", "1")))
+
+    def perform_action_internal(self):
+        set_state(self.plug.wiredplug.gpio, int(self.payload))
+
+    def perform_action(self):
+        self.active = True
+        for b in self.plug.buttons.all():
+            if b.name != self.name:
+                b.active = False
+                b.save()
         self.save()
+        self.perform_action_internal()
 
 
 class WiredPlug(Plug):
     gpio = models.IntegerField(help_text="GPIO port", unique=True)
-    invert_gpio = models.BooleanField(help_text="Set to true if 1 turns off the plug and 0 turns it on.")
-
-    def turn_on_internal(self):
-        wire_on(self.gpio)
-
-    def turn_off_internal(self):
-        wire_off(self.gpio)
-
-    def turn_off(self):
-        self.status = self.OFF
-        self.save()
-        self.turn_off_internal()
-
-    def turn_on(self):
-        self.status = self.ON
-        self.save()
-        self.turn_on_internal()
-
-    def turn_on_auto(self):
-        self.status = self.AUTO
-        self.save()

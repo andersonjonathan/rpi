@@ -6,12 +6,14 @@
             <div class="panel-body">
                 <div class="btn-group btn-group-justified btn-group-lg" role="group" aria-label="Justified button group">
                 <span class="btn inline">{{ p.name }}</span>
-                    <a href="#" class="btn {% if p.status == p.ON %}btn-success active {% else %}btn-default{% endif %}" role="button"
-                       onclick="send_command(this, 'on', '{% url 'switch' p.pk 'on' %}')">ON</a>
-                    <a href="#" class="btn {% if p.status == p.OFF %}btn-danger active {% else %}btn-default{% endif %}" role="button"
-                        onclick="send_command(this, 'off', '{% url 'switch' p.pk 'off' %}')">OFF</a>
-                    <a href="#" class="btn {% if p.status == p.AUTO %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                    {% for button in p.buttons %}
+                    <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
+                       onclick="send_command(this, '{{ button.pk }}', '{% url 'switch' p.pk button.pk %}')">ON</a>
+                    {% endfor %}
+                    {% if p.has_auto %}
+                    <a href="#" class="btn {% if p.is_auto %}btn-primary active {% else %}btn-default{% endif %}" role="button"
                         onclick="send_command(this, 'auto', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
+                    {% endif %}
                 </div>
 
             </div>
@@ -20,12 +22,14 @@
             <div class="panel-heading"><h3 class="panel-title">{{ p.name }}</h3></div>
             <div class="panel-body">
                 <div class="btn-group btn-group-lg" role="group" aria-label="Justified button group">
-                    <a href="#" class="btn {% if p.status == p.ON %}btn-success active {% else %}btn-default{% endif %}" role="button"
-                       onclick="send_command(this, 'on', '{% url 'switch' p.pk 'on' %}')">ON</a>
-                    <a href="#" class="btn {% if p.status == p.OFF %}btn-danger active {% else %}btn-default{% endif %}" role="button"
-                        onclick="send_command(this, 'off', '{% url 'switch' p.pk 'off' %}')">OFF</a>
-                    <a href="#" class="btn {% if p.status == p.AUTO %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                    {% for button in p.buttons %}
+                    <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
+                       onclick="send_command(this, '{{ button.pk }}', '{% url 'switch' p.pk button.pk %}')">ON</a>
+                    {% endfor %}
+                    {% if p.has_auto %}
+                    <a href="#" class="btn {% if p.is_auto %}btn-primary active {% else %}btn-default{% endif %}" role="button"
                         onclick="send_command(this, 'auto', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
+                    {% endif %}
                 </div>
 
             </div>
