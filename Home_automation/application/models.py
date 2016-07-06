@@ -75,10 +75,10 @@ class Button(models.Model):
     color = models.CharField(max_length=255, choices=(
         ("btn-default", "White"),
         ("btn-primary", "Blue"),
-        ("btn-default", "Green"),
-        ("btn-primary", "Light blue"),
-        ("btn-default", "Orange"),
-        ("btn-primary", "Red"),
+        ("btn-success", "Green"),
+        ("btn-info", "Light blue"),
+        ("btn-warning", "Orange"),
+        ("btn-danger", "Red"),
     ))
 
     class Meta:
