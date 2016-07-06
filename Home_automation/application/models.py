@@ -151,6 +151,9 @@ class RadioButton(Button):
     payload = models.CharField(max_length=255)  # This might be a limiting factor in the future.
     rounds = models.IntegerField(default=10)
 
+    def __unicode__(self):
+        return u'{name} [{plug}]'.format(name=self.name, plug=self.plug.name)
+
     def _format_payload(self, str_payload):
         str_payload = str_payload.replace(" ", "")
         signals = list(self.plug.radioplug.protocol.radiosignal_set.all())
