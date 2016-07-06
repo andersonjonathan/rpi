@@ -84,6 +84,12 @@ class Button(models.Model):
     class Meta:
         unique_together = (('name', 'plug'),)
 
+    def child(self):
+        if hasattr(self, 'radiobutton'):
+             return self.radiobutton
+        if hasattr(self, 'wiredbutton'):
+            return self.wiredbutton
+
     def __unicode__(self):
         return u'{name}'.format(name=self.name)
 
@@ -101,6 +107,12 @@ class Plug(models.Model):
     schedule = models.ForeignKey(Schedule, null=True, blank=True)
     default_button = models.ForeignKey(
         Button, related_name="default_action_for_plug", null=True, blank=True, on_delete=models.SET_NULL)
+
+    def child(self):
+        if hasattr(self, 'radioplug'):
+             return self.radioplug
+        if hasattr(self, 'wiredplug'):
+            return self.wiredplug
 
     def __unicode__(self):
         return u'{name}'.format(name=self.name)

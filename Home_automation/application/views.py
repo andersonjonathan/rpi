@@ -24,19 +24,16 @@ def index(request):
 
 @login_required
 def switch(request, pk, button_pk):
-    plug = Plug.objects.get(pk=pk)
-    if hasattr(plug, 'radioplug'):
-        plug = plug.radioplug
-    if hasattr(plug, 'wiredplug'):
-        plug = plug.wiredplug
+    plug = Plug.objects.get(pk=pk).child()
+
     try:
         if button_pk == "auto":
             plug.in_auto_mode = True
         else:
-            btn = plug.buttons.get(pk=button_pk)
+            btn = plug.buttons.get(pk=button_pk).child()
             btn.perform_action()
         # return JsonResponse({"status": "faulty command"})
-    except:
+    except KeyError:
         return JsonResponse({"status": "Exception."})
     return JsonResponse({"status": "ok"})
 
