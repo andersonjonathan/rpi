@@ -140,6 +140,7 @@ class RadioPlug(Plug):
     payload_off = models.CharField(max_length=255)  # This might be a limiting factor in the future.
 
     def _format_payload(self, str_payload):
+        str_payload = str_payload.replace(" ", "")
         signals = list(self.protocol.radiosignal_set.all())
         t = self.protocol.time
         payload = []
