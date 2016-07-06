@@ -153,8 +153,8 @@ class RadioButton(Button):
 
     def _format_payload(self, str_payload):
         str_payload = str_payload.replace(" ", "")
-        signals = list(self.protocol.radiosignal_set.all())
-        t = self.protocol.time
+        signals = list(self.plug.radioplug.protocol.radiosignal_set.all())
+        t = self.plug.radioplug.protocol.time
         payload = []
         for c in str_payload:
             on = None
