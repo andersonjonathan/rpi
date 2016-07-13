@@ -146,7 +146,8 @@ class RadioSignal(models.Model):
         unique_together = (('protocol', 'char'),)
 
     def __unicode__(self):
-        return u'{protocol} [{char}]'.format(protocol=self.protocol, char=self.char)
+        return u'{protocol} [{char}] [ON: {on}, OFF: {off}]'.format(
+            protocol=self.protocol, char=self.char, on=self.on, off= self.off)
 
 
 class RadioButton(Button):
