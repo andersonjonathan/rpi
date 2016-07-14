@@ -1,5 +1,8 @@
+from subprocess import call
+
 from django.db import models
 from django.utils import timezone
+
 from .exceptions import UnknownCommand
 from .utils.radioplugs import transmit
 from .utils.wiredplugs import set_state
@@ -199,6 +202,26 @@ class RadioButton(Button):
 class RadioPlug(Plug):
     transmitter = models.ForeignKey(RadioTransmitter, blank=False, null=True)
     protocol = models.ForeignKey(RadioProtocol)
+
+
+class IRDevice(Plug):
+    pass
+
+
+class IRButton(Button):
+    remote = models.CharField(max_length=255)
+    key = models.CharField(max_length=255)
+    key_hr = models.CharField(max_length=255)
+    count = models.IntegerField(default=10)
+
+    def __unicode__(self):
+        return u'{name} [{plug}]'.format(name=self.name, plug=self.plug.name)
+
+    def perform_action_internal(self):
+        call(['irsend', 'SEND_ONCE', self.remote, self.key, "--count={}".format(self.count)])
+
+    def perform_action(self):
+        self.perform_action_internal()
 
 
 class WiredButton(Button):
