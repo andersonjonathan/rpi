@@ -91,7 +91,7 @@ class Button(models.Model):
 
     def child(self):
         if hasattr(self, 'radiobutton'):
-             return self.radiobutton
+            return self.radiobutton
         if hasattr(self, 'wiredbutton'):
             return self.wiredbutton
         if hasattr(self, 'irbutton'):
@@ -117,7 +117,7 @@ class Plug(models.Model):
 
     def child(self):
         if hasattr(self, 'radioplug'):
-             return self.radioplug
+            return self.radioplug
         if hasattr(self, 'wiredplug'):
             return self.wiredplug
         if hasattr(self, 'irdevice'):
@@ -154,7 +154,7 @@ class RadioSignal(models.Model):
 
     def __unicode__(self):
         return u'{protocol} [{char}] [ON: {on}, OFF: {off}]'.format(
-            protocol=self.protocol, char=self.char, on=self.on, off= self.off)
+            protocol=self.protocol, char=self.char, on=self.on, off=self.off)
 
 
 class RadioButton(Button):
@@ -209,7 +209,22 @@ class RadioPlug(Plug):
 
 
 class IRDevice(Plug):
-    pass
+    def buttons_all(self):
+
+        buttons = self.buttons.all()
+        if not buttons:
+            return buttons
+        res = []
+        tmp = []
+        prev_prio = buttons[0].priority
+        for b in buttons:
+            if prev_prio != b.priority:
+                prev_prio = b.priority
+                res.append(tmp)
+                tmp = []
+            tmp.append(b)
+        print tmp
+        return res
 
 
 class IRButton(Button):
