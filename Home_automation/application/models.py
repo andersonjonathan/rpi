@@ -94,6 +94,8 @@ class Button(models.Model):
              return self.radiobutton
         if hasattr(self, 'wiredbutton'):
             return self.wiredbutton
+        if hasattr(self, 'irbutton'):
+            return self.irbutton
 
     def __unicode__(self):
         return u'{name} [{plug}]'.format(name=self.name, plug=self.plug.name)
@@ -118,6 +120,8 @@ class Plug(models.Model):
              return self.radioplug
         if hasattr(self, 'wiredplug'):
             return self.wiredplug
+        if hasattr(self, 'irdevice'):
+            return self.irdevice
 
     def __unicode__(self):
         return u'{name}'.format(name=self.name)
