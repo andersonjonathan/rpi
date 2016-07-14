@@ -211,7 +211,6 @@ class IRDevice(Plug):
 class IRButton(Button):
     remote = models.CharField(max_length=255)
     key = models.CharField(max_length=255)
-    key_hr = models.CharField(max_length=255)
     count = models.IntegerField(default=10)
 
     def __unicode__(self):
