@@ -223,7 +223,7 @@ class IRDevice(Plug):
                 res.append(tmp)
                 tmp = []
             tmp.append(b)
-        print tmp
+        res.append(tmp)
         return res
 
 
