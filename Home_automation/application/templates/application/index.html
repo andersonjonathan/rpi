@@ -9,11 +9,11 @@
                 <div class="btn-group btn-group-justified btn-group-lg" role="group" aria-label="Justified button group">
                 <span class="btn inline">{{ p.name }}</span>
                     {% for button in p.buttons.all %}
-                    <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
+                    <a href="javascript:void(0)" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
                        onclick="send_command(this, '{{ button.color }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
                     {% endfor %}
                     {% if p.has_auto_mode %}
-                    <a href="#" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                    <a href="javascript:void(0)" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
                         onclick="send_command(this, 'btn-primary', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
                     {% endif %}
                 </div>
@@ -25,11 +25,11 @@
             <div class="panel-body">
                 <div class="btn-group btn-group-lg" role="group" aria-label="Justified button group">
                     {% for button in p.buttons.all %}
-                    <a href="#" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
+                    <a href="javascript:void(0)" class="btn {% if button.active %}{{ button.color }} active {% else %}btn-default{% endif %}" role="button"
                        onclick="send_command(this, '{{ button.color }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
                     {% endfor %}
                     {% if p.has_auto_mode %}
-                    <a href="#" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
+                    <a href="javascript:void(0)" class="btn {% if p.in_auto_mode %}btn-primary active {% else %}btn-default{% endif %}" role="button"
                         onclick="send_command(this, 'btn-primary', '{% url 'switch' p.pk 'auto' %}')">AUTO</a>
                     {% endif %}
                 </div>
@@ -48,7 +48,7 @@
                     <div class="col-sm-10">
                     <div class="btn-group  btn-group-justified btn-group-lg" role="group" aria-label="Justified button group">
                         {% for button in button_group %}
-                <a href="#" class="btn {{ button.color }}" role="button"
+                <a href="javascript:void(0)" class="btn {{ button.color }}" role="button"
                    onclick="send_command(this, '{{ button.color }}', '{% url 'switch' p.pk button.pk %}')">{{ button.name }}</a>
                             {% endfor %}
                     </div>
