@@ -1,8 +1,5 @@
-import json
-import urllib2
 from subprocess import call
 
-import httplib2 as httplib2
 import requests
 from django.db import models
 from django.utils import timezone
