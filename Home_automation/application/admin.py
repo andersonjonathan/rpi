@@ -8,7 +8,7 @@ from .models import (
     RadioSignal,
     RadioPlug,
     WiredPlug,
-    Button, WiredButton, RadioButton, IRButton, IRDevice)
+    Button, WiredButton, RadioButton, IRButton, IRDevice, KodiDevice, KodiButton)
 
 
 class ScheduleSlotAdmin(admin.StackedInline):
@@ -72,10 +72,20 @@ class IRDeviceAdmin(PlugAdmin):
     model = IRDevice
     inlines = [IRButtonAdmin]
 
+
+class KodiButtonAdmin(ButtonAdmin):
+    model = KodiButton
+
+
+class KodiDeviceAdmin(PlugAdmin):
+    model = KodiDevice
+    inlines = [KodiButtonAdmin]
+
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(RadioTransmitter)
 admin.site.register(RadioProtocol, RadioProtocolAdmin)
 admin.site.register(RadioPlug, RadioPlugAdmin)
 admin.site.register(WiredPlug, WiredPlugAdmin)
 admin.site.register(IRDevice, IRDeviceAdmin)
+admin.site.register(KodiDevice, KodiDeviceAdmin)
 # Register your models here.

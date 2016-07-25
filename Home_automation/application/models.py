@@ -1,5 +1,9 @@
+import json
+import urllib2
 from subprocess import call
 
+import httplib2 as httplib2
+import requests
 from django.db import models
 from django.utils import timezone
 
@@ -96,6 +100,8 @@ class Button(models.Model):
             return self.wiredbutton
         if hasattr(self, 'irbutton'):
             return self.irbutton
+        if hasattr(self, 'kodibutton'):
+            return self.kodibutton
 
     def __unicode__(self):
         return u'{name} [{plug}]'.format(name=self.name, plug=self.plug.name)
@@ -122,6 +128,8 @@ class Plug(models.Model):
             return self.wiredplug
         if hasattr(self, 'irdevice'):
             return self.irdevice
+        if hasattr(self, 'kodidevice'):
+            return self.kodidevice
 
     def __unicode__(self):
         return u'{name}'.format(name=self.name)
@@ -260,3 +268,50 @@ class WiredButton(Button):
 
 class WiredPlug(Plug):
     gpio = models.IntegerField(help_text="GPIO port", unique=True)
+
+
+class KodiDevice(Plug):
+    host = models.CharField(max_length=16)
+    port = models.CharField(max_length=16)
+    user = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
+
+    def buttons_all(self):
+        buttons = self.buttons.all()
+        if not buttons:
+            return buttons
+        res = []
+        tmp = []
+        prev_prio = buttons[0].priority
+        for b in buttons:
+            if prev_prio != b.priority:
+                prev_prio = b.priority
+                res.append(tmp)
+                tmp = []
+            tmp.append(b)
+        res.append(tmp)
+        return res
+
+
+class KodiButton(Button):
+    method = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return u'{name} [{plug}]'.format(name=self.name, plug=self.plug.name)
+
+    def perform_action_internal(self):
+        url = "http://{host}:{port}/jsonrpc".format(host=self.plug.child().host, port=self.plug.child().port)
+
+        payload = "{{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"{method}\"}}".format(method=self.method)
+        headers = {
+            'content-type': "application/json",
+            'cache-control': "no-cache",
+        }
+
+        response = requests.request("POST", url, data=payload, headers=headers, auth=(self.plug.child().user, self.plug.child().password))
+
+        return response.text
+
+
+    def perform_action(self):
+        self.perform_action_internal()

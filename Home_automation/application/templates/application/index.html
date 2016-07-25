@@ -3,7 +3,7 @@
 {% block content %}
     {% for p in plugs %}
         {% get_verbose_field_name p.child as verbose_name %}
-        {% if verbose_name != "Ir Device" %}
+        {% if verbose_name != "Ir Device" and  verbose_name != "Kodi Device"  %}
         <div class="desktop panel panel-default hidden-xs">
             <div class="panel-body">
                 <div class="btn-group btn-group-justified btn-group-lg" role="group" aria-label="Justified button group">

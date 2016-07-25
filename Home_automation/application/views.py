@@ -34,7 +34,10 @@ def switch(request, pk, button_pk):
                 b.active = False
                 b.save()
         else:
+            plug.in_auto_mode = False
+            plug.save()
             btn = plug.buttons.get(pk=button_pk).child()
+            print(btn)
             btn.perform_action()
         # return JsonResponse({"status": "faulty command"})
     except KeyError:
