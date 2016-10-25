@@ -149,7 +149,7 @@ def off():
 i = 0
 while (True):
     sleep(0.001)
-    tmp = i % 4
+    tmp = i % 3
     if tmp == 0:
         off()
         mcp.output(d7, 0)  # Segment 1
