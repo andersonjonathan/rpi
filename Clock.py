@@ -148,30 +148,33 @@ def off():
 
 i = 0
 while (True):
-    if i % 4 == 0:
+    tmp = i % 4
+    if tmp == 0:
+        off()
         mcp.output(d7, 0)  # Segment 1
         mcp.output(d10, 1)  # Segment 2
         mcp.output(d11, 1)  # Segment 3
         mcp.output(d6, 1)  # Segment 4
         one()
-    elif i % 4 == 1:
+    elif tmp == 1:
+        off()
         mcp.output(d7, 1)  # Segment 1
         mcp.output(d10, 0)  # Segment 2
         mcp.output(d11, 1)  # Segment 3
         mcp.output(d6, 1)  # Segment 4
         two()
-    elif i % 4 == 2:
+    elif tmp == 2:
+        off()
         mcp.output(d7, 1)  # Segment 1
         mcp.output(d10, 1)  # Segment 2
         mcp.output(d11, 0)  # Segment 3
         mcp.output(d6, 1)  # Segment 4
         three()
     else:
+        off()
         mcp.output(d7, 1)  # Segment 1
         mcp.output(d10, 1)  # Segment 2
         mcp.output(d11, 1)  # Segment 3
         mcp.output(d6, 0)  # Segment 4
         four()
-    #sleep(0.01)
-    off()
     i += 1
