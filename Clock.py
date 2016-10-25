@@ -148,7 +148,7 @@ def off():
 
 i = 0
 while (True):
-    time.sleep(0.001)
+    sleep(0.001)
     tmp = i % 4
     if tmp == 0:
         off()
