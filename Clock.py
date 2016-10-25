@@ -173,5 +173,5 @@ while (True):
         mcp.output(d6, 0)  # Segment 4
         four()
     sleep(0.01)
-
+    off()
     i += 1
