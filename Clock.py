@@ -30,10 +30,11 @@ mcp.config(d10, mcp.OUTPUT)
 mcp.config(d11, mcp.OUTPUT)
 mcp.config(d12, mcp.OUTPUT)
 
-mcp.output(d7, 1)  # Segment 1
-mcp.output(d10, 0)  # Segment 2
-mcp.output(d11, 0)  # Segment 3
-mcp.output(d6, 0)  # Segment 4
+mcp.output(d7, 0)  # Segment 1
+mcp.output(d10, 1)  # Segment 2
+mcp.output(d11, 1)  # Segment 3
+mcp.output(d6, 1)  # Segment 4
+mcp.output(d3, 0)
 while (True):
     mcp.output(d1, 1)
     mcp.output(d2, 1)
