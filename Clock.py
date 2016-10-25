@@ -35,7 +35,89 @@ mcp.output(d10, 1)  # Segment 2
 mcp.output(d11, 1)  # Segment 3
 mcp.output(d6, 1)  # Segment 4
 mcp.output(d3, 0)
-while (True):
+
+
+def zero():
+    mcp.output(d1, 1)
+    mcp.output(d2, 1)
+    mcp.output(d4, 1)
+    mcp.output(d5, 0)
+    mcp.output(d9, 1)
+    mcp.output(d8, 1)
+    mcp.output(d12, 1)
+
+
+def one():
+    mcp.output(d1, 0)
+    mcp.output(d2, 0)
+    mcp.output(d4, 1)
+    mcp.output(d5, 0)
+    mcp.output(d9, 0)
+    mcp.output(d8, 0)
+    mcp.output(d12, 1)
+
+
+def two():
+    mcp.output(d1, 1)
+    mcp.output(d2, 1)
+    mcp.output(d4, 0)
+    mcp.output(d5, 1)
+    mcp.output(d9, 0)
+    mcp.output(d8, 1)
+    mcp.output(d12, 1)
+
+
+def three():
+    mcp.output(d1, 0)
+    mcp.output(d2, 1)
+    mcp.output(d4, 1)
+    mcp.output(d5, 1)
+    mcp.output(d9, 0)
+    mcp.output(d8, 1)
+    mcp.output(d12, 1)
+
+
+def four():
+    mcp.output(d1, 0)
+    mcp.output(d2, 0)
+    mcp.output(d4, 1)
+    mcp.output(d5, 1)
+    mcp.output(d9, 1)
+    mcp.output(d8, 0)
+    mcp.output(d12, 1)
+
+
+def five():
+    mcp.output(d1, 0)
+    mcp.output(d2, 1)
+    mcp.output(d4, 1)
+    mcp.output(d5, 1)
+    mcp.output(d9, 1)
+    mcp.output(d8, 1)
+    mcp.output(d12, 0)
+
+
+def six():
+    mcp.output(d1, 1)
+    mcp.output(d2, 1)
+    mcp.output(d4, 1)
+    mcp.output(d5, 1)
+    mcp.output(d9, 1)
+    mcp.output(d8, 1)
+    mcp.output(d12, 0)
+
+
+def seven():
+    mcp.output(d1, 0)
+    mcp.output(d2, 0)
+    mcp.output(d4, 1)
+    mcp.output(d5, 0)
+    mcp.output(d9, 0)
+    mcp.output(d8, 1)
+    mcp.output(d12, 1)
+
+
+def eight():
     mcp.output(d1, 1)
     mcp.output(d2, 1)
     mcp.output(d4, 1)
@@ -44,7 +126,18 @@ while (True):
     mcp.output(d8, 1)
     mcp.output(d12, 1)
 
-    sleep(1)
+
+def nine():
+    mcp.output(d1, 0)
+    mcp.output(d2, 1)
+    mcp.output(d4, 1)
+    mcp.output(d5, 1)
+    mcp.output(d9, 1)
+    mcp.output(d8, 1)
+    mcp.output(d12, 1)
+
+
+def off():
     mcp.output(d1, 0)
     mcp.output(d2, 0)
     mcp.output(d4, 0)
@@ -52,4 +145,32 @@ while (True):
     mcp.output(d9, 0)
     mcp.output(d8, 0)
     mcp.output(d12, 0)
-    sleep(1)
+
+i = 0
+while (True):
+    if i % 4 == 0:
+        mcp.output(d7, 0)  # Segment 1
+        mcp.output(d10, 1)  # Segment 2
+        mcp.output(d11, 1)  # Segment 3
+        mcp.output(d6, 1)  # Segment 4
+        one()
+    elif i % 4 == 1:
+        mcp.output(d7, 1)  # Segment 1
+        mcp.output(d10, 0)  # Segment 2
+        mcp.output(d11, 1)  # Segment 3
+        mcp.output(d6, 1)  # Segment 4
+        two()
+    elif i % 4 == 2:
+        mcp.output(d7, 1)  # Segment 1
+        mcp.output(d10, 1)  # Segment 2
+        mcp.output(d11, 0)  # Segment 3
+        mcp.output(d6, 1)  # Segment 4
+        three()
+    else:
+        mcp.output(d7, 1)  # Segment 1
+        mcp.output(d10, 1)  # Segment 2
+        mcp.output(d11, 1)  # Segment 3
+        mcp.output(d6, 0)  # Segment 4
+        four()
+
+    i += 1
